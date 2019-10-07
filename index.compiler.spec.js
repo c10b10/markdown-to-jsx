@@ -973,11 +973,11 @@ describe('links', () => {
   });
 
   it('should sanitize html links containing JS expressions', () => {
-      jest.spyOn(console, 'warn').mockImplementation(() => {});
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
 
-      render(compiler('<a href="javascript:doSomethingBad">foo</a>'));
+    render(compiler('<a href="javascript:doSomethingBad">foo</a>'));
 
-      expect(root.innerHTML).toMatchInlineSnapshot(`
+    expect(root.innerHTML).toMatchInlineSnapshot(`
 
 <a data-reactroot>
   foo
@@ -985,8 +985,8 @@ describe('links', () => {
 
 `);
 
-      expect(console.warn).toHaveBeenCalled();
-    });
+    expect(console.warn).toHaveBeenCalled();
+  });
 
   it('should handle a link with a URL in the text', () => {
     render(
@@ -1582,14 +1582,14 @@ describe('GFM tables', () => {
 
   it('#241 should not ignore the first cell when its contents is empty', () => {
     render(
-        compiler(
-            [
-              '| Foo | Bar | Baz |',
-              '| --- | --- | --- |',
-              '|   | 2   | 3   |',
-              '|   | 5   | 6   |',
-            ].join('\n')
-        )
+      compiler(
+        [
+          '| Foo | Bar | Baz |',
+          '| --- | --- | --- |',
+          '|   | 2   | 3   |',
+          '|   | 5   | 6   |',
+        ].join('\n')
+      )
     );
 
     expect(root.innerHTML).toMatchInlineSnapshot(`
@@ -1780,7 +1780,6 @@ describe('GFM tables', () => {
 
 `);
   });
-
 });
 
 describe('arbitrary HTML', () => {
@@ -1976,10 +1975,12 @@ describe('arbitrary HTML', () => {
   });
 
   it('throws out multiline HTML comments', () => {
-    render(compiler(`Foo\n<!-- this is
+    render(
+      compiler(`Foo\n<!-- this is
 a
 multiline
-comment -->`));
+comment -->`)
+    );
 
     expect(root.innerHTML).toMatchInlineSnapshot(`
 
@@ -2183,38 +2184,56 @@ $25
 `);
   });
 
+    it('regression test for test', () => {
+      render(compiler(`<div><div><div><div>test</div></div></div></div>`));
+
+      expect(root.innerHTML).toMatchInlineSnapshot(`
+
+<div data-reactroot>
+  <div>
+    <div>
+      <div>
+        test
+      </div>
+    </div>
+  </div>
+</div>
+
+  `);
+    });
+
   it('regression test for #170', () => {
     render(
       compiler(
         `<table>
-<tbody>
-<tr>
-<td>a</td>
-<td>b</td>
-<td>c</td>
-</tr>
-<tr>
-<td>left</td>
-<td>
-<p>Start of table</p>
-<ul>
-    <li>List 1</li>
-    <li>
-    <ul>
-        <li>Nested List 1</li>
-    </ul>
-    </li>
-    <li>
-    <ul>
-    <li>list 2</li>
-    </ul>
-    </li>
-</ul>
-</td>
-<td>right</td>
-</tr>
-</tbody>
-</table>`
+  <tbody>
+  <tr>
+  <td>a</td>
+  <td>b</td>
+  <td>c</td>
+  </tr>
+  <tr>
+  <td>left</td>
+  <td>
+  <p>Start of table</p>
+  <ul>
+      <li>List 1</li>
+      <li>
+      <ul>
+          <li>Nested List 1</li>
+      </ul>
+      </li>
+      <li>
+      <ul>
+      <li>list 2</li>
+      </ul>
+      </li>
+  </ul>
+  </td>
+  <td>right</td>
+  </tr>
+  </tbody>
+  </table>`
       )
     );
 
@@ -2270,7 +2289,7 @@ $25
 
 `);
   });
-
+// 
   it('#140 self-closing HTML with indentation', () => {
     function DatePicker() {
       return <div className="datepicker" />;
@@ -2800,7 +2819,7 @@ fun main() {
 
 `);
   });
- it('should not fail with lots of \\n in the middle of the text', () => {
+  it('should not fail with lots of \\n in the middle of the text', () => {
     render(
       compiler(
         'Text\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\ntext',
